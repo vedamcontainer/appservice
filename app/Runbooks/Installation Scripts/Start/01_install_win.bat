@@ -135,4 +135,16 @@ IF EXIST "%CURR_DIR%\get_results.py" (
     echo Warning: get_results.py not found.
 )
 
+:: Check if rebuild_images.py exists and run it
+IF EXIST "%CURR_DIR%\rebuild_images.py" (
+    echo Running rebuild_images.py...
+    python "%CURR_DIR%\rebuild_images.py"
+    IF %ERRORLEVEL% NEQ 0 (
+        echo Error: rebuild_images.py execution failed.
+        EXIT /B 1
+    )
+) ELSE (
+    echo Warning: rebuild_images.py not found.
+)
+
 ENDLOCAL

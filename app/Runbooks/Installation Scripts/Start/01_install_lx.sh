@@ -165,8 +165,6 @@ else
     echo "Warning: docarize.sh not found."
 fi
 
-cd "$CURR_DIR" || exit
-
 # Ensure 'docker' Python module is installed
 echo "Checking for 'docker' Python module..."
 if ! python3 -c "import docker" 2>/dev/null; then
@@ -178,6 +176,8 @@ if ! python3 -c "import docker" 2>/dev/null; then
 else
     echo "'docker' module is already installed."
 fi
+
+cd "$CURR_DIR" || exit
 
 # Call docker_user_restart_lx.sh after ensuring the 'docker' module is installed
 SCRIPT_PATH="$(pwd)/docker_user_restart_lx.sh"
@@ -200,6 +200,16 @@ if [ -f "get_results.py" ]; then
     python3 "get_results.py"
 else
     echo "Warning: get_results.py not found."
+fi
+
+echo "The Python script  rebuild_images.py is automatically executed as it is not first instance."
+sleep 15
+# Run rebuild_images.py to generate environment details
+echo "Running rebuild_images.py..."
+if [ -f "rebuild_images.py" ]; then
+    python3 "rebuild_images.py"
+else
+    echo "Warning: rebuild_images.py not found."
 fi
 
 echo "Script execution completed!"
